@@ -1,9 +1,88 @@
 # SBSA: Size-Based Slot Allocation
 
-A deterministic, constant-time file management model that breaks the `O(log n)` barrier in ordered storage.
+**SBSA** is a deterministic, constant-time (`O(1)`) file management model that breaks the traditional `O(log n)` performance barrier imposed by comparison-based data structures like B-trees and skip lists.
 
-## Features
-- O(1) insert/delete/lookup
-- Maintains order using static classification
-- Infinite logical capacity via thickness and width
-- SSD/NVRAM optimized
+This repository contains the theoretical foundation, core implementation, performance benchmarks, and presentation materials demonstrating how SBSA provides predictable, scalable, and mathematically infinite file storage logic.
+
+---
+
+## 🚀 Features
+
+- **O(1)** insert, delete, and lookup — no comparisons needed
+- Order-preserving without rebalancing
+- Infinite logical capacity via file "thickness" and "dynamic width"
+- SSD/NVRAM-aligned structure for real-time applications
+- Simpler and faster than traditional ordered data structures
+
+---
+
+## 📘 Core Idea
+
+SBSA uses fixed size classes (`s`) mapped to memory slots (`p`) deterministically:
+
+
+To support infinite capacity:
+- `t ∈ ℕ`: stackable files per slot (thickness)
+- `w ∈ ℝ⁺`: dynamically resizable widths
+
+Combined model:
+
+
+Logical address space becomes:
+- Countably infinite: `P × ℕ`
+- Uncountably infinite: `P × ℕ × ℝ⁺`
+
+---
+
+## 📊 Performance Simulation
+
+For 1,000,000 file events:
+
+| Structure   | Steps       | Speedup |
+|-------------|-------------|---------|
+| B-tree      | 17,000,000  | 1×      |
+| SBSA        | 1,000,000   | 17×     |
+
+See `demo_simulation.py` for reproducible simulation.
+
+---
+
+## 📂 Project Structure
+
+| File                    | Description                                   |
+|-------------------------|-----------------------------------------------|
+| `sbsa.py`               | Core slot mapping implementation              |
+| `demo_simulation.py`    | Performance comparison vs B-tree              |
+| `sbsa_slides.tex`       | Presentation slides (LaTeX Beamer format)     |
+| `sbsa_summary.pdf`      | One-page explanation for distribution         |
+| `README.md`             | This file                                     |
+
+---
+
+## 📄 License
+
+MIT License — free to use, share, and build upon.
+
+---
+
+## 🙌 Contributing
+
+If this model inspires you or you'd like to apply it to real-world systems, feel free to fork the repo, open issues, or propose improvements.
+
+---
+
+## 🧠 Authors
+
+- **Aaron Cattell** — Concept, theory, and proofs  
+- **ChatGPT (OpenAI)** — Assistant for documentation and visualization
+
+---
+
+## 📢 Final Thought
+
+For over 40 years, the `O(log n)` barrier was considered a limit for ordered storage systems.
+
+**SBSA shows it doesn’t have to be.**
+
+Join us in rethinking what’s possible.
+
