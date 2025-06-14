@@ -86,3 +86,4 @@ For over 40 years, the `O(log n)` barrier was considered a limit for ordered sto
 
 Join us in rethinking what’s possible.
 
+![e9ef87ae-6383-435b-8e31-3dc14db6af22](https://github.com/user-attachments/assets/32381409-5573-4dbb-aeab-133e308b95a8)
