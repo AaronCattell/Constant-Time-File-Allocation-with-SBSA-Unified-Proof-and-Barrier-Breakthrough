@@ -77,8 +77,6 @@ If this model inspires you or you'd like to apply it to real-world systems, feel
 - **ChatGPT (OpenAI)** — Assistant for documentation and visualization
 
 ---
-📘 [Usage Guide →](USAGE.md)
-
 
 ## 📢 Final Thought
 
@@ -92,4 +90,4 @@ Join us in rethinking what’s possible.
 ![Diagram](https://github.com/user-attachments/assets/17d9ea33-1cf6-4610-aa8d-53c7e2ef3de1)
 ![sbsa_vs_logn_growth_chart](https://github.com/user-attachments/assets/95c5145d-c6ac-40e0-ac22-ec32cd87b6cf)
 
-
+📘 [Usage Guide →](USAGE.md)
