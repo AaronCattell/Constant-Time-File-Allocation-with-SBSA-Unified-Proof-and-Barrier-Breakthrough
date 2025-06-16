@@ -77,6 +77,8 @@ If this model inspires you or you'd like to apply it to real-world systems, feel
 - **ChatGPT (OpenAI)** — Assistant for documentation and visualization
 
 ---
+📘 [Usage Guide →](USAGE.md)
+
 
 ## 📢 Final Thought
 
