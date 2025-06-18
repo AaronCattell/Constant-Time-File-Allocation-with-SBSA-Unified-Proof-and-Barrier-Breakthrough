@@ -90,6 +90,7 @@ Join us in rethinking what’s possible.
 ![Diagram](https://github.com/user-attachments/assets/17d9ea33-1cf6-4610-aa8d-53c7e2ef3de1)
 ![sbsa_vs_logn_growth_chart](https://github.com/user-attachments/assets/95c5145d-c6ac-40e0-ac22-ec32cd87b6cf)
 ![sbsa_vs_heap_benchmark](https://github.com/user-attachments/assets/34c2eb0d-b7a8-4260-a44b-e9ee281abb73)
+![SBSA-Backed Quantum Job Queue With Qiskit](https://github.com/user-attachments/assets/04a3b85e-5379-4308-a441-8d2f24051925)
 
 📘 [Usage Guide →](USAGE.md)
 
