@@ -97,6 +97,7 @@ Join us in rethinking what’s possible.
 ![sbsa_vs_heap_benchmark](https://github.com/user-attachments/assets/34c2eb0d-b7a8-4260-a44b-e9ee281abb73)
 ![SBSA-Backed Quantum Job Queue With Qiskit](https://github.com/user-attachments/assets/04a3b85e-5379-4308-a441-8d2f24051925)
 ![sbsa_async_queue_benchmark](https://github.com/user-attachments/assets/54ef5bbf-187c-4ebc-8b69-afbf21eecb8c)
+![sbsa_binary_queue VS JSON Queue Performance - Copy](https://github.com/user-attachments/assets/d6e4fe4e-b6cf-4b03-a212-61b6845bf89a)
 
 📘 [Usage Guide →](USAGE.md)
 
