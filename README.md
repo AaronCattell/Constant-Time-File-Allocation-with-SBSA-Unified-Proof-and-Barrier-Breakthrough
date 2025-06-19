@@ -89,7 +89,10 @@ Join us in rethinking what’s possible.
 🧠 Now includes Qiskit quantum job queue demo
 
 🧪 Benchmarks show up to 16× faster inserts vs heap
+
 ✅ SBSA Async Queue shows near-linear or sublinear scaling
+
+✅ SBSA LLM Memory Benchmarking
 
 ![e9ef87ae-6383-435b-8e31-3dc14db6af22](https://github.com/user-attachments/assets/32381409-5573-4dbb-aeab-133e308b95a8)
 ![Diagram](https://github.com/user-attachments/assets/17d9ea33-1cf6-4610-aa8d-53c7e2ef3de1)
@@ -98,6 +101,8 @@ Join us in rethinking what’s possible.
 ![SBSA-Backed Quantum Job Queue With Qiskit](https://github.com/user-attachments/assets/04a3b85e-5379-4308-a441-8d2f24051925)
 ![sbsa_async_queue_benchmark](https://github.com/user-attachments/assets/54ef5bbf-187c-4ebc-8b69-afbf21eecb8c)
 ![sbsa_binary_queue VS JSON Queue Performance - Copy](https://github.com/user-attachments/assets/d6e4fe4e-b6cf-4b03-a212-61b6845bf89a)
+![sbsa_llm_memory_benchmark](https://github.com/user-attachments/assets/80f1ed24-e97c-4966-94cb-775f510b252e)
+![visual diagram of this architecture](https://github.com/user-attachments/assets/c64ada10-f08d-4cb6-bd17-42a7226e6031)
 
 📘 [Usage Guide →](USAGE.md)
 
