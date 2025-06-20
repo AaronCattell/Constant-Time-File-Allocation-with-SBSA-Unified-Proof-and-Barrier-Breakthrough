@@ -94,6 +94,15 @@ Join us in rethinking what’s possible.
 
 ✅ SBSA LLM Memory Benchmarking
 
+✅ SBSA Cube
+
+NEW 
+🧊 SBSA Cube — Constant-Time Spatial Memory
+SBSA Cube is the foundational logic layer of SBSA. It enables constant-time, multi-key storage by projecting each data point (e.g., task, memory, job) onto six mirrored file paths that form a virtual cube.
+
+Instead of filtering lists or using tree-based lookups, SBSA Cube stores every payload using three orthogonal axes:
+
+
 ![e9ef87ae-6383-435b-8e31-3dc14db6af22](https://github.com/user-attachments/assets/32381409-5573-4dbb-aeab-133e308b95a8)
 ![Diagram](https://github.com/user-attachments/assets/17d9ea33-1cf6-4610-aa8d-53c7e2ef3de1)
 ![sbsa_vs_logn_growth_chart](https://github.com/user-attachments/assets/95c5145d-c6ac-40e0-ac22-ec32cd87b6cf)
@@ -103,6 +112,11 @@ Join us in rethinking what’s possible.
 ![sbsa_binary_queue VS JSON Queue Performance - Copy](https://github.com/user-attachments/assets/d6e4fe4e-b6cf-4b03-a212-61b6845bf89a)
 ![sbsa_llm_memory_benchmark](https://github.com/user-attachments/assets/80f1ed24-e97c-4966-94cb-775f510b252e)
 ![visual diagram of this architecture](https://github.com/user-attachments/assets/c64ada10-f08d-4cb6-bd17-42a7226e6031)
+![sbsa_vs_cube_benchmark](https://github.com/user-attachments/assets/3b845e07-89a4-4d17-b621-f8814917ffd6)
+![job_dispatch_benchmark png](https://github.com/user-attachments/assets/b5d1b177-d000-47bf-89a6-4a254fc350b3)
+![sbsa_vs_flat_memory_benchmark](https://github.com/user-attachments/assets/5b4def03-5ef0-47b7-8c4e-f3df4ea53a05)
+
+
 
 📘 [Usage Guide →](USAGE.md)
 
