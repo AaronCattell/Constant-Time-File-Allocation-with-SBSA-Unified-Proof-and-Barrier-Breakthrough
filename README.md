@@ -96,6 +96,8 @@ Join us in rethinking what’s possible.
 
 ✅ SBSA Cube
 
+✅ SBSA Cube agent memory Agent Memory for LLMs
+
 ✅ SBSA Cube Rule Engine
 
 NEW 
