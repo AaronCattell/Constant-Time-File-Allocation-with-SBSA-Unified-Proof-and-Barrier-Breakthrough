@@ -117,6 +117,7 @@ Instead of filtering lists or using tree-based lookups, SBSA Cube stores every p
 ![sbsa_vs_cube_benchmark](https://github.com/user-attachments/assets/3b845e07-89a4-4d17-b621-f8814917ffd6)
 ![job_dispatch_benchmark png](https://github.com/user-attachments/assets/b5d1b177-d000-47bf-89a6-4a254fc350b3)
 ![sbsa_vs_flat_memory_benchmark](https://github.com/user-attachments/assets/5b4def03-5ef0-47b7-8c4e-f3df4ea53a05)
+![SBSA Rule Cube vs a traditional flat list of rules](https://github.com/user-attachments/assets/17a02537-45f0-4b70-b1a8-27e745589dce)
 
 
 
