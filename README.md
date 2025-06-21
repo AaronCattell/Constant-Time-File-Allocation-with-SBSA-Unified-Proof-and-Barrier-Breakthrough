@@ -96,6 +96,8 @@ Join us in rethinking what’s possible.
 
 ✅ SBSA Cube
 
+✅ SBSA Cube Rule Engine
+
 NEW 
 🧊 SBSA Cube — Constant-Time Spatial Memory
 SBSA Cube is the foundational logic layer of SBSA. It enables constant-time, multi-key storage by projecting each data point (e.g., task, memory, job) onto six mirrored file paths that form a virtual cube.
