@@ -100,6 +100,8 @@ Join us in rethinking what’s possible.
 
 ✅ SBSA Cube Rule Engine
 
+✅ SBSA Hypercube System 
+
 NEW 
 🧊 SBSA Cube — Constant-Time Spatial Memory
 SBSA Cube is the foundational logic layer of SBSA. It enables constant-time, multi-key storage by projecting each data point (e.g., task, memory, job) onto six mirrored file paths that form a virtual cube.
@@ -121,6 +123,10 @@ Instead of filtering lists or using tree-based lookups, SBSA Cube stores every p
 ![job_dispatch_benchmark png](https://github.com/user-attachments/assets/b5d1b177-d000-47bf-89a6-4a254fc350b3)
 ![sbsa_vs_flat_memory_benchmark](https://github.com/user-attachments/assets/5b4def03-5ef0-47b7-8c4e-f3df4ea53a05)
 ![SBSA Rule Cube vs a traditional flat list of rules](https://github.com/user-attachments/assets/17a02537-45f0-4b70-b1a8-27e745589dce)
+![sbsa_hypercube_projection](https://github.com/user-attachments/assets/fbdcaa93-ba0f-49ab-9e5f-f36a30d104bb)
+![SBSA vs flat file store retrieval benchmark](https://github.com/user-attachments/assets/7ea004e0-ed80-40c2-9d76-8a5b8dfe9e20)
+![sbsa_vs_flat_encoder_benchmark png](https://github.com/user-attachments/assets/5f9bd660-6dfc-4e2e-8645-f560f4866709)
+![SBSA Hypercube vs Flat Log Memory Retrieval Time](https://github.com/user-attachments/assets/8756ce14-531d-4c45-9273-958df3eaff81)
 
 
 
