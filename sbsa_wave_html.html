@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBSA Hypercube Wave Dynamics</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a2e);
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(90deg, #16213e, #0f172a);
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-bottom: 2px solid #4a5568;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #64b5f6;
+            text-shadow: 0 0 10px rgba(100, 181, 246, 0.5);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .control-group label {
+            font-size: 12px;
+            color: #a0a0a0;
+        }
+
+        button {
+            padding: 8px 16px;
+            background: linear-gradient(45deg, #4a90e2, #357abd);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(74, 144, 226, 0.3);
+        }
+
+        button:hover {
+            background: linear-gradient(45deg, #357abd, #2a5d8f);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.5);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        select, input[type="range"] {
+            background: #2d3748;
+            color: white;
+            border: 1px solid #4a5568;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-family: inherit;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: #64b5f6;
+            box-shadow: 0 0 5px rgba(100, 181, 246, 0.5);
+        }
+
+        .canvas-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #waveCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: crosshair;
+        }
+
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.6;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .math-display {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 11px;
+            line-height: 1.4;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 300px;
+        }
+
+        .wave-equation {
+            color: #64b5f6;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .dimension-legend {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dimension-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .color-box {
+            width: 20px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .pulsing {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">SBSA Hypercube Wave Dynamics System</h1>
+            <div class="controls">
+                <button id="playPause">▶ Play</button>
+                <button id="reset">⟲ Reset</button>
+                
+                <div class="control-group">
+                    <label>Wave Type</label>
+                    <select id="waveType">
+                        <option value="interference">4D Interference</option>
+                        <option value="standing">Standing Waves</option>
+                        <option value="hypercube">Hypercube Projection</option>
+                        <option value="quantum">Quantum States</option>
+                    </select>
+                </div>
+                
+                <div class="control-group">
+                    <label>Amplitude: <span id="ampValue">50</span></label>
+                    <input type="range" id="amplitude" min="10" max="150" value="50">
+                </div>
+                
+                <div class="control-group">
+                    <label>Frequency: <span id="freqValue">0.020</span></label>
+                    <input type="range" id="frequency" min="0.001" max="0.1" step="0.001" value="0.02">
+                </div>
+                
+                <div class="control-group">
+                    <label>Quantization: <span id="quantValue">5</span></label>
+                    <input type="range" id="quantization" min="1" max="20" value="5">
+                </div>
+            </div>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="waveCanvas"></canvas>
+            
+            <div class="dimension-legend">
+                <div style="font-weight: bold; margin-bottom: 10px;">SBSA Dimensions:</div>
+                <div class="dimension-item">
+                    <div class="color-box" style="background: #4ecdc4;"></div>
+                    <span>S: Size Classes (4 states)</span>
+                </div>
+                <div class="dimension-item">
+                    <div class="color-box" style="background: #45b7d1;"></div>
+                    <span>T: Thickness (200,001 levels)</span>
+                </div>
+                <div class="dimension-item">
+                    <div class="color-box" style="background: #96ceb4;"></div>
+                    <span>W: Width (19,999,981 levels)</span>
+                </div>
+                <div class="dimension-item">
+                    <div class="color-box" style="background: #feca57;"></div>
+                    <span>V: Version (10,001 levels)</span>
+                </div>
+            </div>
+            
+            <div class="info-panel">
+                <div style="font-weight: bold; color: #64b5f6; margin-bottom: 10px;">SBSA Wave Properties:</div>
+                <div>• Total Capacity: 1.599984×10¹⁶ states</div>
+                <div>• Complexity: O(1) constant time</div>
+                <div>• Quantization: Active discretization</div>
+                <div>• Injectivity: Mathematically proven</div>
+                <div>• Dimensions: 4D hypercube structure</div>
+                <div>• Wave Access: Instant retrieval</div>
+                <div style="margin-top: 10px; color: #feca57;">
+                    <div>Time: <span id="timeDisplay">0.00</span>s</div>
+                    <div>Active States: <span id="stateCount">0</span></div>
+                </div>
+            </div>
+            
+            <div class="math-display">
+                <div class="wave-equation">SBSA Wave Equation:</div>
+                <div>Ψ(s,t,w,v) = ∑ᵢ Aᵢ·sin(kᵢx + φᵢ + ωt)</div>
+                <div style="margin-top: 8px;">where:</div>
+                <div>• s ∈ {0,1,2,3} (quantized)</div>
+                <div>• t = Q(t, Δₜ) with Δₜ = 5</div>
+                <div>• w = Q(w, Δw) with Δw = 0.05</div>
+                <div>• v ∈ [0, 10000] (discrete)</div>
+                <div style="margin-top: 8px; color: #96ceb4;">
+                    <div>Address: addr = s·|T|·|W|·|V| + t·|W|·|V| + w·|V| + v</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class SBSAWaveSystem {
+            constructor() {
+                this.canvas = document.getElementById('waveCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.isPlaying = false;
+                this.time = 0;
+                this.animationId = null;
+                
+                // SBSA Parameters from the mathematical proof
+                this.SBSA_PARAMS = {
+                    S: 4,           // Size classes
+                    T: 200001,      // Thickness quantization levels
+                    W: 19999981,    // Width quantization levels  
+                    V: 10001        // Version levels
+                };
+                
+                this.waveType = 'interference';
+                this.amplitude = 50;
+                this.frequency = 0.02;
+                this.quantization = 5;
+                
+                this.initCanvas();
+                this.setupEventListeners();
+                this.draw();
+            }
+            
+            initCanvas() {
+                const resizeCanvas = () => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    this.canvas.width = rect.width * window.devicePixelRatio;
+                    this.canvas.height = rect.height * window.devicePixelRatio;
+                    this.ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+                    this.canvas.style.width = rect.width + 'px';
+                    this.canvas.style.height = rect.height + 'px';
+                    this.draw();
+                };
+                
+                resizeCanvas();
+                window.addEventListener('resize', resizeCanvas);
+            }
+            
+            setupEventListeners() {
+                document.getElementById('playPause').addEventListener('click', () => this.togglePlayPause());
+                document.getElementById('reset').addEventListener('click', () => this.reset());
+                
+                document.getElementById('waveType').addEventListener('change', (e) => {
+                    this.waveType = e.target.value;
+                    this.draw();
+                });
+                
+                document.getElementById('amplitude').addEventListener('input', (e) => {
+                    this.amplitude = Number(e.target.value);
+                    document.getElementById('ampValue').textContent = this.amplitude;
+                    this.draw();
+                });
+                
+                document.getElementById('frequency').addEventListener('input', (e) => {
+                    this.frequency = Number(e.target.value);
+                    document.getElementById('freqValue').textContent = this.frequency.toFixed(3);
+                    this.draw();
+                });
+                
+                document.getElementById('quantization').addEventListener('input', (e) => {
+                    this.quantization = Number(e.target.value);
+                    document.getElementById('quantValue').textContent = this.quantization;
+                    this.draw();
+                });
+            }
+            
+            // SBSA Quantization function from the mathematical proof
+            quantize(x, delta) {
+                return delta * Math.round(x / delta);
+            }
+            
+            // SBSA Address mapping function
+            sbsaAddress(s, t, w, v) {
+                return s * this.SBSA_PARAMS.T * this.SBSA_PARAMS.W * this.SBSA_PARAMS.V +
+                       t * this.SBSA_PARAMS.W * this.SBSA_PARAMS.V +
+                       w * this.SBSA_PARAMS.V + v;
+            }
+            
+            drawBackground() {
+                const width = this.canvas.width / window.devicePixelRatio;
+                const height = this.canvas.height / window.devicePixelRatio;
+                
+                // Background gradient
+                const gradient = this.ctx.createLinearGradient(0, 0, 0, height);
+                gradient.addColorStop(0, '#0a0a0a');
+                gradient.addColorStop(0.5, '#1a1a2e');
+                gradient.addColorStop(1, '#16213e');
+                this.ctx.fillStyle = gradient;
+                this.ctx.fillRect(0, 0, width, height);
+                
+                // Quantization grid
+                this.ctx.strokeStyle = 'rgba(100, 149, 237, 0.15)';
+                this.ctx.lineWidth = 0.5;
+                const gridSpacing = 25;
+                
+                for (let x = 0; x < width; x += gridSpacing) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(x, 0);
+                    this.ctx.lineTo(x, height);
+                    this.ctx.stroke();
+                }
+                
+                for (let y = 0; y < height; y += gridSpacing) {
+                    this.ctx.beginPath();
+                    this.ctx.moveTo(0, y);
+                    this.ctx.lineTo(width, y);
+                    this.ctx.stroke();
+                }
+            }
+            
+            drawInterferenceWaves() {
+                const width = this.canvas.width / window.devicePixelRatio;
+                const height = this.canvas.height / window.devicePixelRatio;
+                const centerY = height / 2;
+                
+                // Individual dimension waves (faded)
+                const colors = ['#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
+                const phases = [1, 1.2, 0.8, 1.5];
+                const frequencies = [0.01, 0.015, 0.008, 0.012];
+                
+                let activeStates = 0;
+                
+                colors.forEach((color, i) => {
+                    this.ctx.strokeStyle = color + '60';
+                    this.ctx.lineWidth = 1.5;
+                    this.ctx.beginPath();
+                    
+                    for (let x = 0; x < width; x += 2) {
+                        const wave = (this.amplitude / 4) * Math.sin((x * frequencies[i] + this.time * phases[i]) * this.frequency * Math.PI);
+                        const quantizedWave = this.quantize(wave, this.quantization);
+                        const y = centerY - quantizedWave;
+                        
+                        if (x === 0) {
+                            this.ctx.moveTo(x, y);
+                        } else {
+                            this.ctx.lineTo(x, y);
+                        }
+                        
+                        if (Math.abs(quantizedWave) > this.amplitude / 8) activeStates++;
+                    }
+                    this.ctx.stroke();
+                });
+                
+                // Combined interference wave
+                this.ctx.strokeStyle = '#ff6b6b';
+                this.ctx.lineWidth = 3;
+                this.ctx.shadowColor = '#ff6b6b';
+                this.ctx.shadowBlur = 10;
+                this.ctx.beginPath();
+                
+                for (let x = 0; x < width; x += 2) {
+                    let totalWave = 0;
+                    
+                    // Sum all 4 SBSA dimensions
+                    for (let i = 0; i < 4; i++) {
+                        totalWave += (this.amplitude / 4) * Math.sin((x * frequencies[i] + this.time * phases[i]) * this.frequency * Math.PI);
+                    }
+                    
+                    const quantizedWave = this.quantize(totalWave, this.quantization);
+                    const y = centerY - quantizedWave;
+                    
+                    if (x === 0) {
+                        this.ctx.moveTo(x, y);
+                    } else {
+                        this.ctx.lineTo(x, y);
+                    }
+                }
+                this.ctx.stroke();
+                this.ctx.shadowBlur = 0;
+                
+                document.getElementById('stateCount').textContent = Math.floor(activeStates / 10);
+            }
+            
+            drawStandingWaves() {
+                const width = this.canvas.width / window.devicePixelRatio;
+                const height = this.canvas.height / window.devicePixelRatio;
+                const centerY = height / 2;
+                
+                // Multiple standing wave modes (representing SBSA dimensions)
+                for (let mode = 1; mode <= 4; mode++) {
+                    const alpha = 0.8 / mode;
+                    const color = ['#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'][mode - 1];
+                    
+                    this.ctx.strokeStyle = color;
+                    this.ctx.globalAlpha = alpha;
+                    this.ctx.lineWidth = 2;
+                    this.ctx.beginPath();
+                    
+                    for (let x = 0; x < width; x += 2) {
+                        const envelope = Math.cos(mode * Math.PI * x / width);
+                        const wave = this.amplitude * envelope * Math.sin(this.time * this.frequency * Math.PI * mode) / mode;
+                        const quantizedWave = this.quantize(wave, this.quantization);
+                        const y = centerY - quantizedWave;
+                        
+                        if (x === 0) {
+                            this.ctx.moveTo(x, y);
+                        } else {
+                            this.ctx.lineTo(x, y);
+                        }
+                    }
+                    this.ctx.stroke();
+                }
+                this.ctx.globalAlpha = 1;
+            }
+            
+            drawHypercubeProjection() {
+                const width = this.canvas.width / window.devicePixelRatio;
+                const height = this.canvas.height / window.devicePixelRatio;
+                const numPoints = 80;
+                
+                let activeStates = 0;
+                
+                for (let i = 0; i < numPoints; i++) {
+                    for (let j = 0; j < numPoints; j++) {
+                        const x = (i / numPoints) * width;
+                        const y = (j / numPoints) * height;
+                        
+                        // 4D hypercube coordinates (quantized according to SBSA)
+                        const s = Math.floor(i / numPoints * 4) % 4;
+                        const t = this.quantize(i * 100, 5);
+                        const w = this.quantize(j * 100, 0.05);
+                        const v = Math.floor((i + j) / 2) % 10001;
+                        
+                        // Wave amplitude based on SBSA address
+                        const addr = this.sbsaAddress(s, t, w, v);
+                        const phase = (addr % 1000) / 1000 * 2 * Math.PI + this.time * this.frequency * Math.PI;
+                        const waveAmp = (this.amplitude / 2) * Math.sin(phase);
+                        
+                        if (Math.abs(waveAmp) > this.amplitude / 6) {
+                            const size = Math.abs(waveAmp) / 8;
+                            const alpha = Math.abs(waveAmp) / this.amplitude;
+                            
+                            // Color based on dimension values
+                            const hue = ((s * 90) + (addr % 360)) % 360;
+                            this.ctx.fillStyle = `hsla(${hue}, 70%, 60%, ${alpha})`;
+                            
+                            this.ctx.beginPath();
+                            this.ctx.arc(x, y, size, 0, 2 * Math.PI);
+                            this.ctx.fill();
+                            
+                            activeStates++;
+                        }
+                    }
+                }
+                
+                document.getElementById('stateCount').textContent = activeStates;
+            }
+            
+            drawQuantumStates() {
+                const width = this.canvas.width / window.devicePixelRatio;
+                const height = this.canvas.height / window.devicePixelRatio;
+                const centerY = height / 2;
+                
+                // Quantum superposition visualization
+                this.ctx.strokeStyle = '#ff6b6b40';
+                this.ctx.lineWidth = 1;
+                
+                // Multiple quantum states
+                for (let state = 0; state < 8; state++) {
+                    this.ctx.beginPath();
+                    
+                    for (let x = 0; x < width; x += 3) {
+                        const quantumPhase = (state * Math.PI / 4) + this.time * this.frequency * Math.PI;
+                        const wave = this.amplitude * Math.sin(x * 0.01 + quantumPhase) * Math.exp(-Math.abs(x - width/2) / (width/4));
+                        const quantizedWave = this.quantize(wave, this.quantization);
+                        const y = centerY - quantizedWave;
+                        
+                        if (x === 0) {
+                            this.ctx.moveTo(x, y);
+                        } else {
+                            this.ctx.lineTo(x, y);
+                        }
+                    }
+                    this.ctx.stroke();
+                }
+                
+                // Probability density
+                this.ctx.fillStyle = '#64b5f640';
+                for (let x = 0; x < width; x += 5) {
+                    let probability = 0;
+                    for (let state = 0; state < 8; state++) {
+                        const quantumPhase = (state * Math.PI / 4) + this.time * this.frequency * Math.PI;
+                        const wave = Math.sin(x * 0.01 + quantumPhase) * Math.exp(-Math.abs(x - width/2) / (width/4));
+                        probability += wave * wave;
+                    }
+                    
+                    const barHeight = (probability / 8) * this.amplitude;
+                    this.ctx.fillRect(x, centerY, 3, -barHeight);
+                }
+            }
+            
+            draw() {
+                this.drawBackground();
+                
+                switch (this.waveType) {
+                    case 'interference':
+                        this.drawInterferenceWaves();
+                        break;
+                    case 'standing':
+                        this.drawStandingWaves();
+                        break;
+                    case 'hypercube':
+                        this.drawHypercubeProjection();
+                        break;
+                    case 'quantum':
+                        this.drawQuantumStates();
+                        break;
+                }
+                
+                document.getElementById('timeDisplay').textContent = this.time.toFixed(2);
+            }
+            
+            animate() {
+                if (this.isPlaying) {
+                    this.time += 0.1;
+                    this.draw();
+                    this.animationId = requestAnimationFrame(() => this.animate());
+                }
+            }
+            
+            togglePlayPause() {
+                this.isPlaying = !this.isPlaying;
+                const button = document.getElementById('playPause');
+                
+                if (this.isPlaying) {
+                    button.textContent = '⏸ Pause';
+                    button.classList.add('pulsing');
+                    this.animate();
+                } else {
+                    button.textContent = '▶ Play';
+                    button.classList.remove('pulsing');
+                    if (this.animationId) {
+                        cancelAnimationFrame(this.animationId);
+                    }
+                }
+            }
+            
+            reset() {
+                this.time = 0;
+                this.isPlaying = false;
+                document.getElementById('playPause').textContent = '▶ Play';
+                document.getElementById('playPause').classList.remove('pulsing');
+                
+                if (this.animationId) {
+                    cancelAnimationFrame(this.animationId);
+                }
+                
+                this.draw();
+            }
+        }
+        
+        // Initialize the SBSA Wave System
+        document.addEventListener('DOMContentLoaded', () => {
+            new SBSAWaveSystem();
+        });
+    </script>
+</body>
+</html>
